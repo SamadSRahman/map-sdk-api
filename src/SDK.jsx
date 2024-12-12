@@ -7,10 +7,9 @@ const mapplsPluginObject = new mappls_plugin();
 
 const SDK = () => {
   const mapRef = useRef(null);
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
-  const [routeCoordinates, setRouteCoordinates] = useState(null);
+ 
 
   const loadObject = { 
     map: true, 
@@ -19,19 +18,18 @@ const SDK = () => {
     libraries: ['polydraw', 'polygon'], //Optional for Polydraw and airspaceLayers
     plugins:['direction'] // Optional for All the plugins
 };
+
 function getRoute(){
   mapplsPluginObject.direction({
     map:mapRef.current,
     // divWidth:500,
+    mapId:"map",
     start:source,
     end: destination,
+    alternatives:0,
     steps:false,
     callback: function (data) {
       console.log(data);
-      
-      if (data.routes && data.routes[0]) {
-        setRouteCoordinates(data.routes[0].geometry.coordinates);
-      }
     },
     // autoSubmit:false
     // divId:"search"
@@ -41,7 +39,7 @@ function getRoute(){
 useEffect(() => {
   // Initialize the map using the provided Mappls class
   mapplsClassObject.initialize(
-    "a1d51755-a3d6-4ab5-acd6-b493b4351218", // Replace with your API key
+    "c55b822b-9001-4c6d-ace7-73ce7afd0987", // Replace with your API key
     loadObject,
     () => {
       // Create a new map instance
@@ -56,19 +54,19 @@ useEffect(() => {
 
       // Set up an event listener for when the map finishes loading
       newMap.on("load", () => {
-        setIsMapLoaded(true); // Update state to indicate the map has loaded
+        // Update state to indicate the map has loaded
         mapRef.current = newMap; // Store the map instance in a ref
-
+        getRoute()
         // Add a circle to the map
         const mapplsCircle = new mapplsClassObject.Circle({
           center: {"lat": "28.519467" ,"lng": "77.223150"},
           map: mapRef.current,
-          radius: 100,
-          strokeColor: "red",
+          radius: 500,
+          strokeColor: "darkgreen",
           strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: "red",
-          fillOpacity: 0.8
+          strokeWeight: 1,
+          fillColor: "lightgreen",
+          fillOpacity: 0.5
           
         });
       });
@@ -89,7 +87,7 @@ useEffect(() => {
 
   return (
     <div>
-    <div
+    {/* <div
       style={{
         padding: "20px",
         backgroundColor: "#f5f5f5",
@@ -110,7 +108,7 @@ useEffect(() => {
         onChange={(e) => setDestination(e.target.value)}
       />
       <button onClick={getRoute}>Get Route</button>
-    </div>
+    </div> */}
     <div
       id="map"
       style={{

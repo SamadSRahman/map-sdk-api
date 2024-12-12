@@ -33,7 +33,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    mapplsClassObject.initialize("5f77713e966c956f5b8989bb5e089ab4", loadObject, () => {
+    mapplsClassObject.initialize(token, loadObject, () => {
       const newMap = mapplsClassObject.Map({
         id: "map",
         properties: {
@@ -76,7 +76,7 @@ const App = () => {
       </div>
       <div
         id="map"
-        style={{ width: "100vw", height: "calc(99vh - 60px)", display: "inline-block" }}
+        style={{ width: "100vw", height: "calc(99vh - 120px)", display: "inline-block" }}
       >
         {isMapLoaded}
       </div>
